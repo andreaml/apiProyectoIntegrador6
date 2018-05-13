@@ -51,9 +51,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // Default configuration
-$route['default_controller']    =   'welcome';
-$route['404_override']          =   '';
-$route['translate_uri_dashes']  =   FALSE;
+$route['default_controller']            =   'welcome';
+$route['404_override']                  =   '';
+$route['translate_uri_dashes']          =   FALSE;
 
 // API routes
-$route['test']					=   'Test_Controller/user'; 
+$route['clientes']		                =   'Clientes_controller/obtenerTodos'; 
+$route['clientes/nuevo']		        =   'Clientes_controller/nuevo';
+$route['clientes/eliminar']	            =   'Clientes_controller/eliminarPorArray';
+$route['clientes/editar/(:any)']	    =   'Clientes_controller/editar/idCliente/$1';
+$route['clientes/eliminar/(:any)']	    =   'Clientes_controller/eliminarPorId/idCliente/$1';
+$route['clientes/porVendedor/(:any)']	=   'Clientes_controller/obtenerPorVendedor/idVendedor/$1';
+$route['clientes/(:any)']		        =   'Clientes_controller/obtenerPorId/idCliente/$1';

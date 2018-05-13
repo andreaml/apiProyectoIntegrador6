@@ -4,53 +4,154 @@ class Clientes_model extends CI_Model {
     public function __construct(){
         parent::__construct();
     }
-    function obtenerClientes(){
-        $query = $this->db->get('clientes');
-        return $query->result();
-		// $sql = "SELECT * FROM clientes' ORDER BY nombre";
-        // return getResult($sql);
-	 }
-    // public function guardar($c){
-	// 	$id			= @$c['cliente_id']			!=''?	@$c['cliente_id'] 			:@$c['id'];
-	// 	$nombre		= @$c['cliente_nombre']		!=''?	@$c['cliente_nombre'] 		:@$c['nombre'];
-	// 	$domicilio	= @$c['cliente_domicilio']	!=''?	@$c['cliente_domicilio']	:@$c['domicilio'];
-	// 	$colonia	= @$c['cliente_colonia']	!=''?	@$c['cliente_colonia'] 		:@$c['colonia'];
-	// 	$ciudad		= @$c['cliente_ciudad']		!=''?	@$c['cliente_ciudad'] 		:@$c['ciudad'];
-	// 	$cp			= @$c['cliente_cp']			!=''?	@$c['cliente_cp'] 			:@$c['codigoPostal'];
-	// 	$rfc		= @$c['cliente_rfc']		!=''?	@$c['cliente_rfc'] 			:@$c['rfc'];
-	// 	$telefono	= @$c['cliente_telefono']	!=''?	@$c['cliente_telefono'] 	:@$c['telefono'];
-	// 	$celular	= @$c['cliente_celular']	!=''?	@$c['cliente_celular'] 		:@$c['celular'];
-	// 	$correo		= @$c['cliente_correo']		!=''?	@$c['cliente_correo'] 		:@$c['correo'];
-	// 	if($id){
-	// 		$sql	= "UPDATE clientes SET nombre='$nombre',domicilio='$domicilio',codigoPostal=$cp,colonia='$colonia',ciudad=$ciudad,rfc='$rfc',telefono='$telefono',celular='$celular',correo='$correo'
-	// 					WHERE id=$id";
-	// 		myQuery($sql);
-	// 		$result		= $id;
-	// 	}else{
-	// 		$sql 	= "INSERT INTO clientes (nombre,domicilio,codigoPostal,colonia,ciudad,rfc,telefono,celular,correo) 
-	// 					VALUES ('$nombre','$domicilio',$cp,'$colonia',$ciudad,'$rfc','$telefono','$celular','$correo')";
-	// 		$result		= myQuery($sql);
-	// 	}
-    //   	if($result)
-	// 	    return $result;
-    //     else
-    //         return false;
-	//  }
-	// public function obtenerTodos(){
-	// 	$sql = "SELECT * FROM clientes WHERE activo = 1";
-	// 	return getResult($sql);
-	//  }
-	// public function obtenerClientebyId($idCliente){
-	// 	$sql = "SELECT C.*, E.estado, Ci.municipio ciudad, E.id idEstado, Ci.id idMunicipio  FROM clientes C 
-	// 				INNER JOIN ciudades Ci 	ON Ci.id = C.ciudad
-	// 				INNER JOIN estados E 	ON Ci.estado = E.id 
-	// 			WHERE C.id = $idCliente AND C.activo = 1";
-	// 	return getResult($sql);
-	//  }
-	// public function eliminar($idCliente){
-	// 	$sql = "UPDATE clientes C, vehiculos V 
-	// 			SET C.activo = 0, V.activo = 0 
-	// 			WHERE id = $idCliente";
-	// 	return myQuery($sql);
-	//  }
+    public function getAll(){
+		$this->db->trans_begin();
+        	$query = $this->db->get_where('clientes', ['activo'=>1]);
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $query->result();
+        }
+	}
+
+	public function getAllByUser($idUsuario){
+		$this->db->trans_begin();
+
+        	$this->db->select('*');
+			$this->db->from('clientes');
+			$this->db->join('rel_clientes_vendedor', 'clientes.curp = rel_clientes_vendedor.idCliente');
+			$this->db->where(array('rel_clientes_vendedor.idUsuario' => $idUsuario, 'clientes.activo' => 1));
+			$query = $this->db->get();
+
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $query->result();
+        }
+	}
+
+	public function getById($idCliente) {
+		$this->db->trans_begin();
+			$query = $this->db->get_where('clientes', ['curp'=>$idCliente]);
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $query->result();
+        }
+	}
+
+	private function checkIfClientIsInactive($idCliente) {
+		$query = $this->db->get_where('clientes', ['curp' => $idCliente, 'activo' => 0]);
+		if ($query->result()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private function reactivateClient($cliente) {
+		$cliente['activo'] = 1;
+		$this->db->trans_begin();
+			$query = $this->db->update('clientes', $cliente, array('curp' => $cliente['curp']));
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $cliente;
+        }
+	}
+
+	public function insert($cliente) {
+		$this->db->trans_begin();
+			if ($this->checkIfClientIsInactive($cliente['curp']))
+				return $this->reactivateClient($cliente);
+			else {
+				$query = $this->db->insert('clientes', $cliente);
+				if (!$query) {
+					return formatDBErrorResponse($this->db->error());
+				}
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $cliente;
+        }
+	}
+
+	public function updateById($idCliente, $cliente) {
+		$this->db->trans_begin();
+			$query = $this->db->update('clientes', $cliente, array('curp' => $idCliente));
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $cliente;
+        }
+	}
+
+	public function deleteById($idCliente) {
+		$data = ['activo' => 0];
+		$this->db->trans_begin();
+			$query = $this->db->update('clientes', $data, array('curp' => $idCliente));
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $idCliente;
+        }
+	}
+
+	public function deleteByArray($arrayIdClientes) {
+		$data = ['activo' => 0];
+		$this->db->trans_begin();
+			$this->db->where_in('curp', $arrayIdClientes);
+			$query = $this->db->update('clientes', $data);
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $arrayIdClientes;
+        }
+	}
 }
