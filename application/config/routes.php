@@ -63,3 +63,11 @@ $route['clientes/editar/(:any)']	    =   'Clientes_controller/editar/idCliente/$
 $route['clientes/eliminar/(:any)']	    =   'Clientes_controller/eliminarPorId/idCliente/$1';
 $route['clientes/porVendedor/(:any)']	=   'Clientes_controller/obtenerPorVendedor/idVendedor/$1';
 $route['clientes/(:any)']		        =   'Clientes_controller/obtenerPorId/idCliente/$1';
+
+$route['usuarios']		                =   'Usuarios_controller/obtenerTodos'; 
+$route['usuarios/nuevo']		        =   'Usuarios_controller/nuevo';
+$route['usuarios/eliminar']	            =   'Usuarios_controller/eliminarPorArray';
+$route['usuarios/editar/(:any)']	    =   'Usuarios_controller/editar/idUsuario/$1';
+$route['usuarios/eliminar/(:any)']	    =   'Usuarios_controller/eliminarPorId/idUsuario/$1';
+$route['usuarios/porSucursal/(:any)']	=   'Usuarios_controller/obtenerPorSucursal/idSucursal/$1';
+$route['usuarios/(:any)']		        =   'Usuarios_controller/obtenerPorId/idUsuario/$1';
