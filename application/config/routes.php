@@ -71,3 +71,12 @@ $route['usuarios/editar/(:any)']	    =   'Usuarios_controller/editar/idUsuario/$
 $route['usuarios/eliminar/(:any)']	    =   'Usuarios_controller/eliminarPorId/idUsuario/$1';
 $route['usuarios/porSucursal/(:any)']	=   'Usuarios_controller/obtenerPorSucursal/idSucursal/$1';
 $route['usuarios/(:any)']		        =   'Usuarios_controller/obtenerPorId/idUsuario/$1';
+
+$route['sucursales']		            =   'Sucursales_controller/obtenerTodos'; 
+$route['sucursales/nuevo']		        =   'Sucursales_controller/nuevo';
+$route['sucursales/eliminar']	        =   'Sucursales_controller/eliminarPorArray';
+$route['sucursales/editar/(:any)']	    =   'Sucursales_controller/editar/idSucursal/$1';
+$route['sucursales/eliminar/(:any)']	=   'Sucursales_controller/eliminarPorId/idSucursal/$1';
+$route['sucursales/porCiudad/(:any)']	=   'Sucursales_controller/obtenerPorCiudad/ciudad/$1';
+$route['sucursales/porEstado/(:any)']	=   'Sucursales_controller/obtenerPorEstado/estado/$1';
+$route['sucursales/(:any)']		        =   'Sucursales_controller/obtenerPorId/idSucursal/$1';
