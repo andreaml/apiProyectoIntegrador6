@@ -80,3 +80,11 @@ $route['sucursales/eliminar/(:any)']	=   'Sucursales_controller/eliminarPorId/id
 $route['sucursales/porCiudad/(:any)']	=   'Sucursales_controller/obtenerPorCiudad/ciudad/$1';
 $route['sucursales/porEstado/(:any)']	=   'Sucursales_controller/obtenerPorEstado/estado/$1';
 $route['sucursales/(:any)']		        =   'Sucursales_controller/obtenerPorId/idSucursal/$1';
+
+$route['roles']		                    =   'Roles_controller/obtenerTodos'; 
+$route['roles/nuevo']		            =   'Roles_controller/nuevo';
+$route['roles/eliminar']	            =   'Roles_controller/eliminarPorArray';
+$route['roles/editar/(:any)']	        =   'Roles_controller/editar/idRol/$1';
+$route['roles/eliminar/(:any)']	        =   'Roles_controller/eliminarPorId/idRol/$1';
+$route['roles/porNombre/(:any)']	    =   'Roles_controller/obtenerPorNombre/rol/$1';
+$route['roles/(:any)']		            =   'Roles_controller/obtenerPorId/idRol/$1';
