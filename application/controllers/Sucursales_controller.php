@@ -10,7 +10,9 @@ class Sucursales_controller extends REST_Controller {
  
     public function obtenerTodos_get() {
         $result = $this->sucursales->getAll();
-        if ($result) {
+        if (@$result['status'] === false)
+            $this->response($result);
+        else if ($result) {
             $this->response(formatResponse($result));
         } else {
             $this->response(formatResponse(false, "No se encontraron resultados."));            
@@ -49,7 +51,7 @@ class Sucursales_controller extends REST_Controller {
 
     public function nuevo_post() {
         $sucursal = $this->post();
-        $requiredArray = ['telefono','direccion','tipo','ciudad','estado'];
+        $requiredArray = ['sucursal','telefono','direccion','tipo','ciudad','estado'];
         $validate = validateRequired($sucursal,$requiredArray);
         if(!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
@@ -63,7 +65,7 @@ class Sucursales_controller extends REST_Controller {
     public function editar_put() {
         $idSucursal = $this->get('idSucursal');	
         $sucursal = $this->put();
-        $requiredArray = ['telefono','direccion','tipo','ciudad','estado'];
+        $requiredArray = ['sucursal','telefono','direccion','tipo','ciudad','estado'];
         $validate = validateRequired($sucursal,$requiredArray);
         if (!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
