@@ -5,7 +5,7 @@
         if ($data)
             return ['status'=>true,'data'=>$data];
         else
-            return ['status'=>false,'error'=>$error];
+            return ['status'=>false,'error'=>['message' => $error]];
     }
 
     function formatDBErrorResponse($dbError) {
