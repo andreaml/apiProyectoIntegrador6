@@ -6,7 +6,7 @@ class Sucursales_model extends CI_Model {
     }
     public function getAll(){
 		$this->db->trans_begin();
-        	$query = $this->db->get_where('sucursales', ['activo' => 1]);
+			$query = $this->db->get('sucursales');
 			if (!$query) {
 				return formatDBErrorResponse($this->db->error());
 			}
