@@ -88,3 +88,7 @@ $route['roles/editar/(:any)']	        =   'Roles_controller/editar/idRol/$1';
 $route['roles/eliminar/(:any)']	        =   'Roles_controller/eliminarPorId/idRol/$1';
 $route['roles/porNombre/(:any)']	    =   'Roles_controller/obtenerPorNombre/rol/$1';
 $route['roles/(:any)']		            =   'Roles_controller/obtenerPorId/idRol/$1';
+
+$route['modelos']		                =   'Modelos_controller/obtenerTodos'; 
+$route['modelos/porCategoria/(:any)']	=   'Modelos_controller/obtenerPorCategoria/categoria/$1';
+$route['modelos/(:any)']		        =   'Modelos_controller/obtenerPorId/idModeloVehiculo/$1';
