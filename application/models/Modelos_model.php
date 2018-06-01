@@ -78,29 +78,27 @@ class Modelos_model extends CI_Model {
         }
 	}
 
-	public function insert($sucursal) {
+	public function insert($modelo) {
 		$this->db->trans_begin();
-			if ($this->checkIfSucursalIsInactive($sucursal['telefono']))
-				return $this->reactivateSucursal($sucursal);
-			else {
-				$query = $this->db->insert('modelos_vehiculos', $sucursal);
-				if (!$query) {
-					return formatDBErrorResponse($this->db->error());
-				}
+			
+			$query = $this->db->insert('modelos_vehiculos', $modelo);
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
 			}
+			
 		$this->db->trans_complete();
 		
         if ($this->db->trans_status()===false) {
             $this->db->trans_rollback();
         } else {
             $this->db->trans_commit();
-            return $sucursal;
+            return $modelo;
         }
 	}
 
-	public function updateById($idSucursal, $sucursal) {
+	public function updateById($idModeloVehiculo, $modelo) {
 		$this->db->trans_begin();
-			$query = $this->db->update('modelos_vehiculos', $sucursal, array('idSucursal' => $idSucursal));
+			$query = $this->db->update('modelos_vehiculos', $modelo, array('idModeloVehiculo' => $idModeloVehiculo));
 			if (!$query) {
 				return formatDBErrorResponse($this->db->error());
 			}
@@ -110,42 +108,7 @@ class Modelos_model extends CI_Model {
             $this->db->trans_rollback();
         } else {
             $this->db->trans_commit();
-            return $sucursal;
-        }
-	}
-
-	public function deleteById($idSucursal) {
-		$data = ['activo' => 0];
-		$this->db->trans_begin();
-			$query = $this->db->update('modelos_vehiculos', $data, array('idSucursal' => $idSucursal));
-			if (!$query) {
-				return formatDBErrorResponse($this->db->error());
-			}
-		$this->db->trans_complete();
-		
-        if ($this->db->trans_status()===false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-            return $idSucursal;
-        }
-	}
-
-	public function deleteByArray($arrayIdSucursales) {
-		$data = ['activo' => 0];
-		$this->db->trans_begin();
-			$this->db->where_in('idSucursal', $arrayIdSucursales);
-			$query = $this->db->update('modelos_vehiculos', $data);
-			if (!$query) {
-				return formatDBErrorResponse($this->db->error());
-			}
-		$this->db->trans_complete();
-		
-        if ($this->db->trans_status()===false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-            return $arrayIdSucursales;
+            return $modelo;
         }
 	}
 }

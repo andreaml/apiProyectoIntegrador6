@@ -44,12 +44,12 @@ class Modelos_controller extends REST_Controller {
     }
 
     public function nuevo_post() {
-        $sucursal = $this->post();
-        $requiredArray = ['sucursal','telefono','direccion','tipo','ciudad','estado'];
-        $validate = validateRequired($sucursal,$requiredArray);
+        $modelo = $this->post();
+        $requiredArray = ['idCategoria','modelo','anio','version','tipoTransmision','aireAcondicionado','bolsasAire','tipoFreno','cilindrada','equipamiento','precio','numPuertas','numPasajeros','tipoCombustible','potencia','idUsuarioCreador'];
+        $validate = validateRequired($modelo,$requiredArray);
         if(!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
-        $result = $this->sucursales->insert($sucursal);
+        $result = $this->modelos->insert($modelo);
         if (@$result['status'] === false)
             $this->response($result);
         else
@@ -57,31 +57,13 @@ class Modelos_controller extends REST_Controller {
     }
 
     public function editar_put() {
-        $idSucursal = $this->get('idSucursal');	
-        $sucursal = $this->put();
-        $requiredArray = ['sucursal','telefono','direccion','tipo','ciudad','estado'];
-        $validate = validateRequired($sucursal,$requiredArray);
+        $idModeloVehiculo = $this->get('idModeloVehiculo');	
+        $modelo = $this->put();
+        $requiredArray = ['idCategoria','modelo','anio','version','tipoTransmision','aireAcondicionado','bolsasAire','tipoFreno','cilindrada','equipamiento','precio','numPuertas','numPasajeros','tipoCombustible','potencia','idUsuarioCreador'];
+        $validate = validateRequired($modelo,$requiredArray);
         if (!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
-        $result = $this->sucursales->updateById($idSucursal, $sucursal);
-        if (@$result['status'] === false)
-            $this->response($result);
-        else
-            $this->response(formatResponse($result));
-    }
-
-    public function eliminarPorId_delete() {
-        $idSucursal = $this->get('idSucursal');	
-        $result = $this->sucursales->deleteById($idSucursal);
-        if (@$result['status'] === false)
-            $this->response($result);
-        else
-            $this->response(formatResponse($result));
-    }
-
-    public function eliminarPorArray_delete() {
-        $arrayIdSucursales = $this->delete('idArray');	
-        $result = $this->sucursales->deleteByArray($arrayIdSucursales);
+        $result = $this->modelos->updateById($idModeloVehiculo, $modelo);
         if (@$result['status'] === false)
             $this->response($result);
         else

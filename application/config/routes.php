@@ -51,44 +51,47 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // Default configuration
-$route['default_controller']            =   'welcome';
-$route['404_override']                  =   '';
-$route['translate_uri_dashes']          =   FALSE;
+$route['default_controller']            		=   'welcome';
+$route['404_override']                  		=   '';
+$route['translate_uri_dashes']          		=   FALSE;
 
 // API routes
-$route['clientes']		                =   'Clientes_controller/obtenerTodos'; 
-$route['clientes/nuevo']		        =   'Clientes_controller/nuevo';
-$route['clientes/eliminar']	            =   'Clientes_controller/eliminarPorArray';
-$route['clientes/editar/(:any)']	    =   'Clientes_controller/editar/idCliente/$1';
-$route['clientes/eliminar/(:any)']	    =   'Clientes_controller/eliminarPorId/idCliente/$1';
-$route['clientes/porVendedor/(:any)']	=   'Clientes_controller/obtenerPorVendedor/idVendedor/$1';
-$route['clientes/(:any)']		        =   'Clientes_controller/obtenerPorId/idCliente/$1';
+$route['clientes']['GET']		        		=   'Clientes_controller/obtenerTodos'; 
+$route['clientes/nuevo']['POST']		    	=   'Clientes_controller/nuevo';
+$route['clientes/eliminar']['DELETE']	        =   'Clientes_controller/eliminarPorArray';
+$route['clientes/editar/(:any)']['PUT']	    	=   'Clientes_controller/editar/idCliente/$1';
+$route['clientes/eliminar/(:any)']['DELETE']	=   'Clientes_controller/eliminarPorId/idCliente/$1';
+$route['clientes/porVendedor/(:any)']['GET']	=   'Clientes_controller/obtenerPorVendedor/idVendedor/$1';
+$route['clientes/(:any)']['GET']		        =   'Clientes_controller/obtenerPorId/idCliente/$1';
 
-$route['usuarios']		                =   'Usuarios_controller/obtenerTodos'; 
-$route['usuarios/nuevo']		        =   'Usuarios_controller/nuevo';
-$route['usuarios/eliminar']	            =   'Usuarios_controller/eliminarPorArray';
-$route['usuarios/editar/(:any)']	    =   'Usuarios_controller/editar/idUsuario/$1';
-$route['usuarios/eliminar/(:any)']	    =   'Usuarios_controller/eliminarPorId/idUsuario/$1';
-$route['usuarios/porSucursal/(:any)']	=   'Usuarios_controller/obtenerPorSucursal/idSucursal/$1';
-$route['usuarios/(:any)']		        =   'Usuarios_controller/obtenerPorId/idUsuario/$1';
+$route['usuarios']['GET']		                =   'Usuarios_controller/obtenerTodos'; 
+$route['usuarios/nuevo']['POST']		        =   'Usuarios_controller/nuevo';
+$route['usuarios/eliminar']['DELETE']	        =   'Usuarios_controller/eliminarPorArray';
+$route['usuarios/editar/(:any)']['PUT']    		=   'Usuarios_controller/editar/idUsuario/$1';
+$route['usuarios/eliminar/(:any)']['DELETE']	=   'Usuarios_controller/eliminarPorId/idUsuario/$1';
+$route['usuarios/porSucursal/(:any)']['GET']	=   'Usuarios_controller/obtenerPorSucursal/idSucursal/$1';
+$route['usuarios/(:any)']['GET']		        =   'Usuarios_controller/obtenerPorId/idUsuario/$1';
 
-$route['sucursales']		            =   'Sucursales_controller/obtenerTodos'; 
-$route['sucursales/nuevo']		        =   'Sucursales_controller/nuevo';
-$route['sucursales/eliminar']	        =   'Sucursales_controller/eliminarPorArray';
-$route['sucursales/editar/(:any)']	    =   'Sucursales_controller/editar/idSucursal/$1';
-$route['sucursales/eliminar/(:any)']	=   'Sucursales_controller/eliminarPorId/idSucursal/$1';
-$route['sucursales/porCiudad/(:any)']	=   'Sucursales_controller/obtenerPorCiudad/ciudad/$1';
-$route['sucursales/porEstado/(:any)']	=   'Sucursales_controller/obtenerPorEstado/estado/$1';
-$route['sucursales/(:any)']		        =   'Sucursales_controller/obtenerPorId/idSucursal/$1';
+$route['sucursales']['GET']		            	=   'Sucursales_controller/obtenerTodos'; 
+$route['sucursales/nuevo']['POST']		        =   'Sucursales_controller/nuevo';
+$route['sucursales/eliminar']['DELETE']	        =   'Sucursales_controller/eliminarPorArray';
+$route['sucursales/editar/(:any)']['PUT']    	=   'Sucursales_controller/editar/idSucursal/$1';
+$route['sucursales/eliminar/(:any)']['DELETE']	=   'Sucursales_controller/eliminarPorId/idSucursal/$1';
+$route['sucursales/porCiudad/(:any)']['GET']	=   'Sucursales_controller/obtenerPorCiudad/ciudad/$1';
+$route['sucursales/porEstado/(:any)']['GET']	=   'Sucursales_controller/obtenerPorEstado/estado/$1';
+$route['sucursales/(:any)']['GET']		        =   'Sucursales_controller/obtenerPorId/idSucursal/$1';
 
-$route['roles']		                    =   'Roles_controller/obtenerTodos'; 
-$route['roles/nuevo']		            =   'Roles_controller/nuevo';
-$route['roles/eliminar']	            =   'Roles_controller/eliminarPorArray';
-$route['roles/editar/(:any)']	        =   'Roles_controller/editar/idRol/$1';
-$route['roles/eliminar/(:any)']	        =   'Roles_controller/eliminarPorId/idRol/$1';
-$route['roles/porNombre/(:any)']	    =   'Roles_controller/obtenerPorNombre/rol/$1';
-$route['roles/(:any)']		            =   'Roles_controller/obtenerPorId/idRol/$1';
+$route['roles']['GET']		                    =   'Roles_controller/obtenerTodos'; 
+$route['roles/nuevo']['POST']		            =   'Roles_controller/nuevo';
+$route['roles/eliminar']['DELETE']	            =   'Roles_controller/eliminarPorArray';
+$route['roles/editar/(:any)']['PUT']        	=   'Roles_controller/editar/idRol/$1';
+$route['roles/eliminar/(:any)']['DELETE']	    =   'Roles_controller/eliminarPorId/idRol/$1';
+$route['roles/porNombre/(:any)']['GET']	    	=   'Roles_controller/obtenerPorNombre/rol/$1';
+$route['roles/(:any)']['GET']		            =   'Roles_controller/obtenerPorId/idRol/$1';
 
-$route['modelos']		                =   'Modelos_controller/obtenerTodos'; 
-$route['modelos/porCategoria/(:any)']	=   'Modelos_controller/obtenerPorCategoria/categoria/$1';
-$route['modelos/(:any)']		        =   'Modelos_controller/obtenerPorId/idModeloVehiculo/$1';
+$route['modelos']['GET']		                =   'Modelos_controller/obtenerTodos'; 
+$route['modelos/porCategoria/(:any)']['GET']	=   'Modelos_controller/obtenerPorCategoria/categoria/$1';
+$route['modelos/(:any)']['GET']		        	=   'Modelos_controller/obtenerPorId/idModeloVehiculo/$1';
+$route['modelos/nuevo']['POST']		        	=   'Modelos_controller/nuevo';
+$route['modelos/editar/(:any)']['PUT']    		=   'Modelos_controller/editar/idModeloVehiculo/$1';
+
