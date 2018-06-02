@@ -47,20 +47,11 @@ class Envios_controller extends REST_Controller {
     public function editar_put() {
         $idEnvio = $this->get('idEnvio');	
         $envio = $this->put();
-        $requiredArray = 'fechaEnvio','horaEnvio','fechaRecepcion','horaRecepcion','estado','idSolicitud';
+        $requiredArray = ['fechaEnvio','horaEnvio','fechaRecepcion','horaRecepcion','estado','idSolicitud'];
         $validate = validateRequired($envio,$requiredArray);
         if (!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
         $result = $this->envios->updateById ($idEnvio, $envio);
-        if (@$result['status'] === false)
-            $this->response($result);
-        else
-            $this->response(formatResponse($result));
-    }
-
-    public function eliminarPorId_delete() {
-        $idRecordatorio = $this->get('idRecordatorio'); 
-        $result = $this->recordatorios->deleteById($idRecordatorio);
         if (@$result['status'] === false)
             $this->response($result);
         else

@@ -70,20 +70,4 @@ class Envios_model extends CI_Model {
             return $envio;
         }
     }
-
-    public function deleteById($idRecordatorio) {
-        $this->db->trans_begin();
-            $query = $this->db->delete('recordatorios', array('idRecordatorio' => $idRecordatorio));
-            if (!$query) {
-                return formatDBErrorResponse($this->db->error());
-            }
-        $this->db->trans_complete();
-        
-        if ($this->db->trans_status()===false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-            return $idRecordatorio;
-        }
-    }
 }
