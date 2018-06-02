@@ -106,6 +106,11 @@ $route['envios/(:any)']['GET']		    			=   'Envios_controller/obtenerPorId/idEnv
 $route['envios/nuevo']['POST']		    			=   'Envios_controller/nuevo';
 $route['envios/editar/(:any)']['PUT']    			=   'Envios_controller/editar/idEnvio/$1';
 
+$route['ventas']['GET']		            			=   'Ventas_controller/obtenerTodos';
+$route['ventas/(:any)']['GET']		    			=   'Ventas_controller/obtenerPorId/idVenta/$1';
+$route['ventas/nuevo']['POST']		    			=   'Ventas_controller/nuevo';
+$route['ventas/editar/(:any)']['PUT']    			=   'Ventas_controller/editar/idVenta/$1';
+
 
 
 
