@@ -95,3 +95,13 @@ $route['modelos/(:any)']['GET']		        	=   'Modelos_controller/obtenerPorId/i
 $route['modelos/nuevo']['POST']		        	=   'Modelos_controller/nuevo';
 $route['modelos/editar/(:any)']['PUT']    		=   'Modelos_controller/editar/idModeloVehiculo/$1';
 
+
+$route['ventas']['GET']		                		=   'Ventas_controller/obtenerTodos'; 
+$route['ventas/(:any)']['GET']		        		=   'Ventas_controller/obtenerPorId/idVenta/$1';
+$route['ventas/nuevo']['POST']		        		=   'Ventas_controller/nuevo';
+$route['ventas/editar/(:any)']['PUT']    			=   'Ventas_controller/editar/idVenta/$1';
+
+$route['seguimientos']['GET']		                =   'Seguimientos_controller/obtenerTodos'; 
+$route['seguimientos/(:any)']['GET']		        =   'Seguimientos_controller/obtenerPorId/idSeguimiento/$1';
+$route['seguimientos/nuevo']['POST']		        =   'Seguimientos_controller/nuevo';
+$route['seguimientos/editar/(:any)']['PUT']    		=   'Seguimientos_controller/editar/idSeguimiento/$1';
