@@ -127,3 +127,8 @@ $route['seguimientos']['GET']		                =   'Seguimientos_controller/obte
 $route['seguimientos/(:any)']['GET']		        =   'Seguimientos_controller/obtenerPorId/idSeguimiento/$1';
 $route['seguimientos/nuevo']['POST']		        =   'Seguimientos_controller/nuevo';
 $route['seguimientos/editar/(:any)']['PUT']    		=   'Seguimientos_controller/editar/idSeguimiento/$1';
+
+$route['colores']['GET']		            		=   'Colores_controller/obtenerTodos'; 
+$route['colores/(:any)']['GET']		        	=   'Colores_controller/obtenerPorId/idColor/$1';
+$route['colores/nuevo']['POST']		        	=   'Colores_controller/nuevo';
+$route['colores/editar/(:any)']['PUT']    		=   'Colores_controller/editar/idColor/$1';
