@@ -6,10 +6,7 @@ class Usuarios_model extends CI_Model {
     }
     public function getAll(){
 		$this->db->trans_begin();
-			$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador');
-			$this->db->from('usuarios');
-			$this->db->where(['activo'=>1]);
-			$query = $this->db->get(); 
+			$query = $this->db->query('select u.*, rel.idRelacion, rel.idSucursal, rel.idRol from usuarios AS u INNER JOIN rel_usuarios_sucursal AS rel ON u.idTrabajador = rel.idUsuario WHERE u.activo=1');
 			if (!$query) {
 				return formatDBErrorResponse($this->db->error());
 			}
@@ -25,12 +22,11 @@ class Usuarios_model extends CI_Model {
 
 	public function getAllBySucursal($idSucursal){
 		$this->db->trans_begin();
-			$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador');
+			$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador, idRelacion, idSucursal, idRol');
 			$this->db->from('usuarios');
 			$this->db->join('rel_usuarios_sucursal', 'usuarios.idTrabajador = rel_usuarios_sucursal.idUsuario');
 			$this->db->where(array('rel_usuarios_sucursal.idSucursal' => $idSucursal, 'usuarios.activo' => 1));
 			$query = $this->db->get();
-
 			if (!$query) {
 				return formatDBErrorResponse($this->db->error());
 			}
@@ -46,9 +42,10 @@ class Usuarios_model extends CI_Model {
 
 	public function getById($idUsuario) {
 		$this->db->trans_begin();
-			$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador');
+			$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador, idRelacion, idSucursal, idRol');
 			$this->db->from('usuarios');
-			$this->db->where(['idTrabajador'=>$idUsuario]);
+			$this->db->join('rel_usuarios_sucursal', 'usuarios.idTrabajador = rel_usuarios_sucursal.idUsuario');
+			$this->db->where(['idTrabajador'=>$idUsuario, 'usuarios.activo' => 1]);
 			$query = $this->db->get(); 
 			if (!$query) {
 				return formatDBErrorResponse($this->db->error());
@@ -89,13 +86,30 @@ class Usuarios_model extends CI_Model {
         }
 	}
 
-	public function insert($usuario) {
+	public function insert($datosPost) {
 		$this->db->trans_begin();
+			$usuario = array(
+				'nombre' =>  $datosPost['nombre'],
+				'apellidoPaterno' => $datosPost['apellidoPaterno'],
+				'apellidoMaterno' => $datosPost['apellidoMaterno'],
+				'telefono' =>  $datosPost['telefono'],
+				'correo' => $datosPost['correo'],
+				'direccion' => $datosPost['direccion'],
+				'contrasenia' =>  $datosPost['contrasenia'],
+				'idUsuarioCreador' => $datosPost['idUsuarioCreador']
+			);
 			if ($this->checkIfClientIsInactive($usuario['correo']))
 				return $this->reactivateUser($usuario);
 			else {
 				$query = $this->db->insert('usuarios', $usuario);
-				if (!$query) {
+				$idUsuarioNuevo = $this->db->insert_id();
+				$relUsuarioSucursal = array(
+					'idUsuario' => $idUsuarioNuevo,
+					'idSucursal' => $datosPost['idSucursal'],
+					'idRol' => $datosPost['idRol']
+				);
+				$query2 = $this->db->insert('rel_usuarios_sucursal', $relUsuarioSucursal);
+				if (!$query || !$query2) {
 					return formatDBErrorResponse($this->db->error());
 				}
 			}
@@ -105,14 +119,31 @@ class Usuarios_model extends CI_Model {
             $this->db->trans_rollback();
         } else {
             $this->db->trans_commit();
-            return $usuario;
+            return $datosPost;
         }
 	}
 
-	public function updateById($idUsuario, $usuario) {
+	public function updateById($idUsuario, $datosPost) {
 		$this->db->trans_begin();
+			$usuario = array(
+				'nombre' =>  $datosPost['nombre'],
+				'apellidoPaterno' => $datosPost['apellidoPaterno'],
+				'apellidoMaterno' => $datosPost['apellidoMaterno'],
+				'telefono' =>  $datosPost['telefono'],
+				'correo' => $datosPost['correo'],
+				'direccion' => $datosPost['direccion'],
+				'contrasenia' =>  $datosPost['contrasenia'],
+				'idUsuarioCreador' => $datosPost['idUsuarioCreador']
+			);
+
 			$query = $this->db->update('usuarios', $usuario, array('idTrabajador' => $idUsuario));
-			if (!$query) {
+			$idRelacion = $datosPost['idRelacion'];
+			$relUsuarioSucursal = array(
+				'idSucursal' => $datosPost['idSucursal'],
+				'idRol' => $datosPost['idRol']
+			);
+			$query2 = $this->db->update('rel_usuarios_sucursal', $relUsuarioSucursal, array('idRelacion' => $idRelacion) );
+			if (!$query || !$query2) {
 				return formatDBErrorResponse($this->db->error());
 			}
 		$this->db->trans_complete();
