@@ -111,17 +111,11 @@ $route['ventas/(:any)']['GET']		    			=   'Ventas_controller/obtenerPorId/idVen
 $route['ventas/nuevo']['POST']		    			=   'Ventas_controller/nuevo';
 $route['ventas/editar/(:any)']['PUT']    			=   'Ventas_controller/editar/idVenta/$1';
 
-
-
-
-
-
-
-
-$route['ventas']['GET']		                		=   'Ventas_controller/obtenerTodos'; 
-$route['ventas/(:any)']['GET']		        		=   'Ventas_controller/obtenerPorId/idVenta/$1';
-$route['ventas/nuevo']['POST']		        		=   'Ventas_controller/nuevo';
-$route['ventas/editar/(:any)']['PUT']    			=   'Ventas_controller/editar/idVenta/$1';
+$route['clientes']['GET']		        			=   'Clientes_controller/obtenerTodos'; 
+$route['clientes/nuevo']['POST']		    		=   'Clientes_controller/nuevo';
+$route['clientes/editar/(:any)']['PUT']	    	    =   'Clientes_controller/editar/idCliente/$1';
+$route['clientes/porUsuarioCreador/(:any)']['GET']	=   'Clientes_controller/obtenerPorUsuarioCreador/idUsuarioCreador/$1';
+$route['clientes/(:any)']['GET']		        	=   'Clientes_controller/obtenerPorId/idCliente/$1';
 
 $route['seguimientos']['GET']		                =   'Seguimientos_controller/obtenerTodos'; 
 $route['seguimientos/(:any)']['GET']		        =   'Seguimientos_controller/obtenerPorId/idSeguimiento/$1';
