@@ -132,3 +132,7 @@ $route['colores']['GET']		            		=   'Colores_controller/obtenerTodos';
 $route['colores/(:any)']['GET']		        	=   'Colores_controller/obtenerPorId/idColor/$1';
 $route['colores/nuevo']['POST']		        	=   'Colores_controller/nuevo';
 $route['colores/editar/(:any)']['PUT']    		=   'Colores_controller/editar/idColor/$1';
+
+$route['imagen/nuevo']['POST']		        	=   'Imagen_controller/nuevo';
+$route['imagen/editar']['POST']    		=   'Imagen_controller/editar';
+$route['imagen/(:any)/(:any)']['GET']		            		=   'Imagen_controller/obtenerImagenes/idModeloVehiculo/$1/idColor/$2'; 
