@@ -56,13 +56,13 @@ $route['404_override']                  			=   '';
 $route['translate_uri_dashes']          			=   FALSE;
 
 // API routes
-$route['clientes']['GET']		        			=   'Clientes_controller/obtenerTodos'; 
-$route['clientes/nuevo']['POST']		    		=   'Clientes_controller/nuevo';
-$route['clientes/eliminar']['DELETE']	        	=   'Clientes_controller/eliminarPorArray';
-$route['clientes/editar/(:any)']['PUT']	    		=   'Clientes_controller/editar/idCliente/$1';
-$route['clientes/eliminar/(:any)']['DELETE']		=   'Clientes_controller/eliminarPorId/idCliente/$1';
-$route['clientes/porVendedor/(:any)']['GET']		=   'Clientes_controller/obtenerPorVendedor/idVendedor/$1';
-$route['clientes/(:any)']['GET']		        	=   'Clientes_controller/obtenerPorId/idCliente/$1';
+$route['prospectos']['GET']		        			=   'Prospectos_controller/obtenerTodos'; 
+$route['prospectos/nuevo']['POST']		    		=   'Prospectos_controller/nuevo';
+$route['prospectos/eliminar']['DELETE']	        	=   'Prospectos_controller/eliminarPorArray';
+$route['prospectos/editar/(:any)']['PUT']	    	=   'Prospectos_controller/editar/idProspecto/$1';
+$route['prospectos/eliminar/(:any)']['DELETE']		=   'Prospectos_controller/eliminarPorId/idProspecto/$1';
+$route['prospectos/porVendedor/(:any)']['GET']		=   'Prospectos_controller/obtenerPorVendedor/idVendedor/$1';
+$route['prospectos/(:any)']['GET']		        	=   'Prospectos_controller/obtenerPorId/idProspecto/$1';
 
 $route['usuarios']['GET']		                	=   'Usuarios_controller/obtenerTodos'; 
 $route['usuarios/nuevo']['POST']		        	=   'Usuarios_controller/nuevo';
@@ -111,17 +111,11 @@ $route['ventas/(:any)']['GET']		    			=   'Ventas_controller/obtenerPorId/idVen
 $route['ventas/nuevo']['POST']		    			=   'Ventas_controller/nuevo';
 $route['ventas/editar/(:any)']['PUT']    			=   'Ventas_controller/editar/idVenta/$1';
 
-
-
-
-
-
-
-
-$route['ventas']['GET']		                		=   'Ventas_controller/obtenerTodos'; 
-$route['ventas/(:any)']['GET']		        		=   'Ventas_controller/obtenerPorId/idVenta/$1';
-$route['ventas/nuevo']['POST']		        		=   'Ventas_controller/nuevo';
-$route['ventas/editar/(:any)']['PUT']    			=   'Ventas_controller/editar/idVenta/$1';
+$route['clientes']['GET']		        			=   'Clientes_controller/obtenerTodos'; 
+$route['clientes/nuevo']['POST']		    		=   'Clientes_controller/nuevo';
+$route['clientes/editar/(:any)']['PUT']	    	    =   'Clientes_controller/editar/idCliente/$1';
+$route['clientes/porUsuarioCreador/(:any)']['GET']	=   'Clientes_controller/obtenerPorUsuarioCreador/idUsuarioCreador/$1';
+$route['clientes/(:any)']['GET']		        	=   'Clientes_controller/obtenerPorId/idCliente/$1';
 
 $route['seguimientos']['GET']		                =   'Seguimientos_controller/obtenerTodos'; 
 $route['seguimientos/(:any)']['GET']		        =   'Seguimientos_controller/obtenerPorId/idSeguimiento/$1';
