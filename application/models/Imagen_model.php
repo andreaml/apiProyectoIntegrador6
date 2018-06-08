@@ -39,4 +39,20 @@ class Imagen_model extends CI_Model {
             return $query->result();
         }
 	}
+
+	public function delete($idImagen) {
+		$this->db->trans_begin();
+			$query = $this->db->delete('imagenes', array('idImagen' => $idImagen));
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $idImagen;
+        }
+	}
 }

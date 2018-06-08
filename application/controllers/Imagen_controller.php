@@ -49,8 +49,8 @@ class Imagen_controller extends REST_Controller {
     public function obtenerImagenes_get() {
      	$datosBusqueda = array("idModeloVehiculo" => $this->get("idModeloVehiculo"),"idColor" => $this->get("idColor"));
 
-        var_dump(FCPATH);
-        var_dump(base_url("public/uploads/"));
+        //var_dump(FCPATH);
+        //var_dump(base_url("public/uploads/"));
 
 
         $result = $this->imagenes->getAll($datosBusqueda);
@@ -63,9 +63,17 @@ class Imagen_controller extends REST_Controller {
         }
     }
 
-    // public function eliminar_post() {
-    // 	$nombre_imagen = $this->input->post('nombre_imagen');
+    public function eliminar_delete() {
+       	$nombre_imagen = $this->delete('nombre_imagen');
+        $ruta_imagen = FCPATH.'public/'.$nombre_imagen;
+        var_dump($nombre_imagen);
+       	unlink($ruta_imagen);
 
-    // 	unlink(rutaUNU.$nombre_imagen.$extension);
-    // }
+        $idImagen = $this->get('idImagen'); 
+        $result = $this->imagenes->delete($idImagen);
+        if (@$result['status'] === false)
+            $this->response($result);
+        else
+            $this->response(formatResponse($result));
+    }
 }
