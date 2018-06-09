@@ -71,6 +71,7 @@ $route['usuarios/editar/(:any)']['PUT']    			=   'Usuarios_controller/editar/id
 $route['usuarios/eliminar/(:any)']['DELETE']		=   'Usuarios_controller/eliminarPorId/idUsuario/$1';
 $route['usuarios/porSucursal/(:any)']['GET']		=   'Usuarios_controller/obtenerPorSucursal/idSucursal/$1';
 $route['usuarios/(:any)']['GET']		        	=   'Usuarios_controller/obtenerPorId/idUsuario/$1';
+$route['usuarios/login']['POST']		        	=   'Usuarios_controller/login';
 
 $route['sucursales']['GET']		            		=   'Sucursales_controller/obtenerTodos'; 
 $route['sucursales/nuevo']['POST']		        	=   'Sucursales_controller/nuevo';
@@ -131,3 +132,4 @@ $route['imagen/nuevo']['POST']		        		=   'Imagen_controller/nuevo';
 $route['imagen/editar']['POST']    					=   'Imagen_controller/editar';
 $route['imagen/(:any)/(:any)']['GET']		    	=   'Imagen_controller/obtenerImagenes/idModeloVehiculo/$1/idColor/$2'; 
 $route['imagen/eliminar/(:any)']['DELETE']			=   'Imagen_controller/eliminar/idImagen/$1';
+
