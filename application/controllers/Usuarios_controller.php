@@ -81,4 +81,18 @@ class Usuarios_controller extends REST_Controller {
         else
             $this->response(formatResponse($result));
     }
+
+    public function login_post() {
+        $correo = $this->post('correo');
+        $contrasenia = $this->post('contrasenia');
+
+        $result = $this->usuarios->login($correo, $contrasenia);
+        if (@$result['status'] === false)
+            $this->response($result);
+        if ($result) {
+            $this->response(formatResponse($result));
+        } else {
+            $this->response(formatResponse(false, "No se encontraron resultados."));            
+        }
+    }
 }

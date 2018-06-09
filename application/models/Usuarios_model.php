@@ -190,4 +190,29 @@ class Usuarios_model extends CI_Model {
             return $arrayIdUsuarios;
         }
 	}
+
+	public function login($correo, $contrasenia) {
+		$this->db->trans_begin();
+			$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador, idRelacion, idSucursal, idRol');
+			//$this->db->select('idTrabajador, nombre, apellidoPaterno, apellidoMaterno, telefono, correo, direccion, idUsuarioCreador');
+			$this->db->from('usuarios');
+			//$this->db->join('rel_usuarios_sucursal', 'usuarios.idTrabajador = rel_usuarios_sucursal.idUsuario');
+			$this->db->join('rel_usuarios_sucursal', 'usuarios.idTrabajador = rel_usuarios_sucursal.idUsuario');
+			$this->db->where('usuarios.correo', $correo);
+			$this->db->where('usuarios.contrasenia', $contrasenia);
+			$this->db->where('usuarios.activo', 1);
+			$query = $this->db->get(); 
+			if (!$query) {
+				var_dump($this->db->error());
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return $query->result();
+        }
+	}
 }
