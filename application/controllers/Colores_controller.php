@@ -22,11 +22,41 @@ class Colores_controller extends REST_Controller {
     public function obtenerPorId_get() {
         $idColor = $this->get('idColor');	
         $result = $this->colores->getById($idColor);
-        if ($result) {
+        if (@$result['status'] === false)
+            $this->response($result);
+        else if ($result) {
             $this->response(formatResponse($result));
         } else {
             $this->response(formatResponse(false, "No se encontraron resultados."));            
         }
+    }
+
+    public function obtenerPorModelo_get() {
+        $idModeloVehiculo = $this->get('idModeloVehiculo');
+
+        $result = $this->colores->getByModel($idModeloVehiculo);
+        if (@$result['status'] === false)
+            $this->response($result);
+        else if ($result) {
+            $this->response(formatResponse($result));
+        } else {
+            $this->response(formatResponse(false, "No se encontraron resultados."));           
+        }
+    }
+
+    public function nuevaRelacionModeloColor_post() {
+        $idModeloVehiculo = $this->post('idModeloVehiculo');
+        $idColor = $this->post('idColor');
+
+        $requiredArray = ['idModeloVehiculo', 'idColor'];
+        $validate = validateRequired($this->post(),$requiredArray);
+        if(!@$validate['status'])
+            $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
+        $result = $this->colores->insertRelModeloColor($idModeloVehiculo, $idColor);
+        if (@$result['status'] === false)
+            $this->response($result);
+        else
+            $this->response(formatResponse($result));
     }
 
     public function nuevo_post() {
@@ -50,6 +80,17 @@ class Colores_controller extends REST_Controller {
         if (!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
         $result = $this->colores->updateById($idColor, $color);
+        if (@$result['status'] === false)
+            $this->response($result);
+        else
+            $this->response(formatResponse($result));
+    }
+
+    public function eliminarPorModelo_delete() {
+        $idColor = $this->get('idColor');
+        $idModeloVehiculo = $this->get('idModeloVehiculo');
+
+        $result = $this->colores->deleteByModel($idColor, $idModeloVehiculo);
         if (@$result['status'] === false)
             $this->response($result);
         else

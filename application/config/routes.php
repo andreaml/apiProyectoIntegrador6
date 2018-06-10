@@ -127,6 +127,9 @@ $route['colores']['GET']		            		=   'Colores_controller/obtenerTodos';
 $route['colores/(:any)']['GET']		        		=   'Colores_controller/obtenerPorId/idColor/$1';
 $route['colores/nuevo']['POST']		        		=   'Colores_controller/nuevo';
 $route['colores/editar/(:any)']['PUT']    			=   'Colores_controller/editar/idColor/$1';
+$route['colores/nuevaRelacionModeloColor']['POST']	=   'Colores_controller/nuevaRelacionModeloColor';
+$route['colores/porModelo/(:any)']['GET']		    =   'Colores_controller/obtenerPorModelo/idModeloVehiculo/$1';
+$route['colores/eliminarPorModelo/(:any)/(:any)']['DELETE']=   'Colores_controller/eliminarPorModelo/idModeloVehiculo/$1/idColor/$2';
 
 $route['imagen/nuevo']['POST']		        		=   'Imagen_controller/nuevo';
 $route['imagen/editar']['POST']    					=   'Imagen_controller/editar';
