@@ -40,6 +40,16 @@ class Envios_model extends CI_Model {
     public function insert($envio) {
         $this->db->trans_begin();
             
+            $this->db->select('idSucursalSolicitante as idSucursal, idVehiculo');
+            $this->db->where('idSolicitud', $envio['idSolicitud']);
+            $solicitud = $this->db->get('solicitudes')->result();
+            // var_dump($solicitud);
+            // var_dump($solicitud[0]->idVehiculo);
+            $idSucursal = $solicitud[0]->idSucursal;
+            $idVehiculo = $solicitud[0]->idVehiculo;
+            $this->db->where('idVehiculo', $idVehiculo);
+            $updateStock = $this->db->update('stock', array('idSucursal' => $idSucursal));
+
             $query = $this->db->insert('envios', $envio);
             if (!$query) {
                 return formatDBErrorResponse($this->db->error());
