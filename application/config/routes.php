@@ -141,3 +141,9 @@ $route['solicitud/editar/(:any)']['PUT']    		=   'Solicitud_controller/editar/i
 $route['solicitud/editarEstado/(:any)']['PUT']    	=   'Solicitud_controller/editarEstado/idSolicitud/$1';
 $route['solicitud/porSucursalSolicitante/(:any)']['GET']	=   'Solicitud_controller/obtenerPorSucursalSolicitante/idSucursalSolicitante/$1';
 $route['solicitud/porSucursalSolicitada/(:any)']['GET']		=   'Solicitud_controller/obtenerPorSucursalSolicitada/idSucursalSolicitada/$1';
+
+$route['stock']['GET']		                	=   'Stock_controller/obtenerTodos'; 
+$route['stock/(:any)']['GET']		        	=   'Stock_controller/obtenerPorId/idStock/$1';
+$route['stock/porIdSucursal/(:any)/(:any)']['GET']		=   'Stock_controller/obtenerPorIdSucursal/idSucursal/$1/estado/$2';
+$route['stock/nuevo']['POST']		        	=   'Stock_controller/nuevo';
+$route['stock/editar/(:any)']['PUT']    		=   'Stock_controller/editar/idStock/$1';
