@@ -136,3 +136,8 @@ $route['imagen/editar']['POST']    					=   'Imagen_controller/editar';
 $route['imagen/(:any)/(:any)']['GET']		    	=   'Imagen_controller/obtenerImagenes/idModeloVehiculo/$1/idColor/$2'; 
 $route['imagen/eliminar/(:any)']['DELETE']			=   'Imagen_controller/eliminar/idImagen/$1';
 
+$route['solicitud/nuevo']['POST']		        	=   'Solicitud_controller/nuevo';
+$route['solicitud/editar/(:any)']['PUT']    		=   'Solicitud_controller/editar/idSolicitud/$1';
+$route['solicitud/editarEstado/(:any)']['PUT']    	=   'Solicitud_controller/editarEstado/idSolicitud/$1';
+$route['solicitud/porSucursalSolicitante/(:any)']['GET']	=   'Solicitud_controller/obtenerPorSucursalSolicitante/idSucursalSolicitante/$1';
+$route['solicitud/porSucursalSolicitada/(:any)']['GET']		=   'Solicitud_controller/obtenerPorSucursalSolicitada/idSucursalSolicitada/$1';
