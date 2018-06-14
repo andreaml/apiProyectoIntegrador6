@@ -33,7 +33,7 @@ class Modelos_model extends CI_Model {
         } else {
             $this->db->trans_commit();
             return $query->result();
-        }
+		}
 	}
 
 	public function getById($idModeloVehiculo) {
@@ -49,7 +49,32 @@ class Modelos_model extends CI_Model {
         } else {
             $this->db->trans_commit();
             return $query->result();
-        }
+		}
+	}
+
+	public function compararExt() {
+		$this->load->model("Imagen_model", "ImagenesModel");
+		$modelos = $this->db->query("SELECT DISTINCT modelo FROM modelos_vehiculos")->result();
+		$retModelos = [];
+		foreach($modelos as $modelo) {
+			$modelo->variantes = [];
+			$variantes = $this->db->query("SELECT anio, version, tipoTransmision, potencia, precio FROM modelos_vehiculos WHERE modelo = \"{$modelo->modelo}\"")->result();
+			foreach($variantes as $variante) {
+				$varianteModelo = new stdClass();
+				$varianteModelo->variante = $variante->version . " - " . $variante->anio;
+				$varianteModelo->precio = $variante->precio;
+
+				$caracteristicas = new stdClass();
+				$caracteristicas->potencia = $variante->potencia;
+				$caracteristicas->transmision = $variante->tipoTransmision;
+
+				$varianteModelo->caracteristicas = $caracteristicas;
+
+				$modelo->variantes[] = $varianteModelo;
+			}
+			$retModelos[] = $modelo;
+		}
+		return $retModelos;
 	}
 
 	private function checkIfSucursalIsInactive($idSucursal) {

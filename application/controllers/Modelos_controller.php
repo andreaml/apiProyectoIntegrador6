@@ -31,6 +31,11 @@ class Modelos_controller extends REST_Controller {
         }
     }
 
+    public function publico_get() {
+        $result = $this->modelos->compararExt();
+        $this->response($result);
+    }
+
     public function obtenerPorCategoria_get() {
         $categoria = $this->get('categoria');	
         $result = $this->modelos->getAllByCategory($categoria);

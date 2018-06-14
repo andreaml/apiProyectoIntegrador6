@@ -91,6 +91,7 @@ $route['roles/porNombre/(:any)']['GET']	    		=   'Roles_controller/obtenerPorNo
 $route['roles/(:any)']['GET']		            	=   'Roles_controller/obtenerPorId/idRol/$1';
 
 $route['modelos']['GET']		                	=   'Modelos_controller/obtenerTodos'; 
+$route['modelos/publico']['GET']	              	=   'Modelos_controller/publico';
 $route['modelos/porCategoria/(:any)']['GET']		=   'Modelos_controller/obtenerPorCategoria/categoria/$1';
 $route['modelos/(:any)']['GET']		        		=   'Modelos_controller/obtenerPorId/idModeloVehiculo/$1';
 $route['modelos/nuevo']['POST']		        		=   'Modelos_controller/nuevo';
