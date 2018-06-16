@@ -10,10 +10,9 @@ class Imagen_controller extends REST_Controller {
 
     public function nuevo_post() {
     	$datosPost = $this->post();
-    	var_dump(FCPATH.'/uploads/');
     	$nombre_imagen = $datosPost['nombre_imagen'];
         $config['upload_path']          = FCPATH.'public/uploads/';
-        $config['allowed_types']        = 'jpg|png';
+        $config['allowed_types']        = 'jpg|jpeg|png';
         $config['max_size']             = 100;
         $config['max_width']            = 1024;
         $config['max_height']           = 768;
@@ -29,7 +28,6 @@ class Imagen_controller extends REST_Controller {
         else
         {
             $data = array('upload_data' => $this->upload->data());
-            var_dump(base_url("system/uploads/".$data["upload_data"]["file_name"]));
             $datosImagen = array(
             	"idModeloVehiculo" => $datosPost['idModeloVehiculo'],
             	"idColor" => $datosPost['idColor'],
@@ -41,7 +39,7 @@ class Imagen_controller extends REST_Controller {
 	        else if ($result) {
 	            $this->response(formatResponse($result));
 	        } else {
-	            $this->response(formatResponse(false, "No se encontraron resultados."));            
+	            $this->response(formatResponse(false, "No se pudo subir la imagen."));            
 	        }
         }
     }
@@ -66,7 +64,6 @@ class Imagen_controller extends REST_Controller {
     public function eliminar_delete() {
        	$nombre_imagen = $this->delete('nombre_imagen');
         $ruta_imagen = FCPATH.'public/'.$nombre_imagen;
-        var_dump($nombre_imagen);
        	unlink($ruta_imagen);
 
         $idImagen = $this->get('idImagen'); 

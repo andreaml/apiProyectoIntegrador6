@@ -64,6 +64,16 @@ class Usuarios_controller extends REST_Controller {
             $this->response(formatResponse($result));
     }
 
+    public function editarContrasenia_put() {
+        $idUsuario = $this->get('idUsuario');	
+        $contrasenia = $this->put('contrasenia');
+        $result = $this->usuarios->updatePassword($idUsuario, $contrasenia);
+        if (@$result['status'] === false)
+            $this->response($result);
+        else
+            $this->response(formatResponse($result));
+    }
+
     public function eliminarPorId_delete() {
         $idUsuario = $this->get('idUsuario');	
         $result = $this->usuarios->deleteById($idUsuario);

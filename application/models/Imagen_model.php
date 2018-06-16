@@ -8,6 +8,7 @@ class Imagen_model extends CI_Model {
 	public function insert($datosImagen) {
 		$this->db->trans_begin();
 			$query = $this->db->insert('imagenes', $datosImagen);
+            $idImagen = $this->db->insert_id();			
 			if (!$query) {
 				return formatDBErrorResponse($this->db->error());
 			}
@@ -16,7 +17,8 @@ class Imagen_model extends CI_Model {
         if ($this->db->trans_status()===false) {
             $this->db->trans_rollback();
         } else {
-            $this->db->trans_commit();
+			$this->db->trans_commit();
+			$datosImagen['idImagen'] = $idImagen;
             return $datosImagen;
         }
 	}
