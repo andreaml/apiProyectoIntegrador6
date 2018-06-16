@@ -102,6 +102,9 @@ class Usuarios_model extends CI_Model {
 				return $this->reactivateUser($usuario);
 			else {
 				$query = $this->db->insert('usuarios', $usuario);
+				if (!$query) {
+					return formatDBErrorResponse($this->db->error());
+				}
 				$idUsuarioNuevo = $this->db->insert_id();
 				$relUsuarioSucursal = array(
 					'idUsuario' => $idUsuarioNuevo,
@@ -109,7 +112,7 @@ class Usuarios_model extends CI_Model {
 					'idRol' => $datosPost['idRol']
 				);
 				$query2 = $this->db->insert('rel_usuarios_sucursal', $relUsuarioSucursal);
-				if (!$query || !$query2) {
+				if (!$query2) {
 					return formatDBErrorResponse($this->db->error());
 				}
 			}
@@ -132,7 +135,6 @@ class Usuarios_model extends CI_Model {
 				'telefono' =>  $datosPost['telefono'],
 				'correo' => $datosPost['correo'],
 				'direccion' => $datosPost['direccion'],
-				'contrasenia' =>  $datosPost['contrasenia'],
 				'idUsuarioCreador' => $datosPost['idUsuarioCreador']
 			);
 
@@ -153,6 +155,23 @@ class Usuarios_model extends CI_Model {
         } else {
             $this->db->trans_commit();
             return $usuario;
+        }
+	}
+
+	public function updatePassword($idUsuario, $contrasenia) {
+		$this->db->trans_begin();
+			$data = ["contrasenia" => $contrasenia];
+			$query = $this->db->update('usuarios', $data, array('idTrabajador' => $idUsuario));
+			if (!$query) {
+				return formatDBErrorResponse($this->db->error());
+			}
+		$this->db->trans_complete();
+		
+        if ($this->db->trans_status()===false) {
+            $this->db->trans_rollback();
+        } else {
+            $this->db->trans_commit();
+            return ['idTrabajador' => $idUsuario];
         }
 	}
 
