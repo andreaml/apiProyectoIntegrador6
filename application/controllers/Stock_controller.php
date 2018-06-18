@@ -19,6 +19,18 @@ class Stock_controller extends REST_Controller {
         }
     }
 
+    public function obtenerPorModelo_get() {
+        $idModelo = $this->get('idModelo');	
+        $result = $this->stock->getByModel($idModelo);
+        if (@$result['status'] === false)
+            $this->response($result);
+        else if ($result) {
+            $this->response(formatResponse($result));
+        } else {
+            $this->response(formatResponse(false, "No se encontraron resultados."));            
+        }
+    }
+
     public function obtenerPorIdSucursal_get() {
         $idSucursal = $this->get('idSucursal');	
         $estado = $this->get('estado');
@@ -46,7 +58,7 @@ class Stock_controller extends REST_Controller {
 
     public function nuevo_post() {
         $stocks = $this->post();
-        $requiredArray = ['estado','idSucursal','idVehiculo'];
+        $requiredArray = ['estado','idSucursal','numeroSerie', 'idColor', 'idModelo'];
         $validate = validateRequired($stocks,$requiredArray);
         if(!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
@@ -58,13 +70,13 @@ class Stock_controller extends REST_Controller {
     }
 
     public function editar_put() {
-        $idStock = $this->get('idStock');	
-        $stocks = $this->put();
-        $requiredArray = ['estado','idSucursal','idVehiculo'];
-        $validate = validateRequired($stocks,$requiredArray);
+        $idVehiculo = $this->get('idVehiculo');	
+        $vehiculo = $this->put();
+        $requiredArray = ['idSucursal','numeroSerie', 'idColor'];
+        $validate = validateRequired($vehiculo,$requiredArray);
         if (!@$validate['status'])
             $this->response(formatResponse(false,'Parámetros requeridos: '.implode(', ',$validate['error'])));
-        $result = $this->stock->updateById ($idStock, $stocks);
+        $result = $this->stock->updateById ($idVehiculo, $vehiculo);
         if (@$result['status'] === false)
             $this->response($result);
         else

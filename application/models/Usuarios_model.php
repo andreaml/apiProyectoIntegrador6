@@ -222,7 +222,6 @@ class Usuarios_model extends CI_Model {
 			$this->db->where('usuarios.activo', 1);
 			$query = $this->db->get(); 
 			if (!$query) {
-				var_dump($this->db->error());
 				return formatDBErrorResponse($this->db->error());
 			}
 		$this->db->trans_complete();

@@ -54,14 +54,14 @@ class Modelos_model extends CI_Model {
 
 	public function compararExt() {
 		$this->load->model("Imagen_model", "ImagenesModel");
-		$modelos = $this->db->query("SELECT DISTINCT modelo FROM modelos_vehiculos")->result();
+		$modelos = $this->db->query("SELECT DISTINCT modelo AS nombre FROM modelos_vehiculos")->result();
 		$retModelos = [];
 		foreach($modelos as $modelo) {
 			$modelo->variantes = [];
-			$variantes = $this->db->query("SELECT anio, version, tipoTransmision, potencia, precio FROM modelos_vehiculos WHERE modelo = \"{$modelo->modelo}\"")->result();
+			$variantes = $this->db->query("SELECT anio, version, tipoTransmision, potencia, precio FROM modelos_vehiculos WHERE modelo = \"{$modelo->nombre}\"")->result();
 			foreach($variantes as $variante) {
 				$varianteModelo = new stdClass();
-				$varianteModelo->variante = $variante->version . " - " . $variante->anio;
+				$varianteModelo->nombre = $variante->version . " - " . $variante->anio;
 				$varianteModelo->precio = $variante->precio;
 
 				$caracteristicas = new stdClass();
